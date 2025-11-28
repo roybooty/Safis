@@ -1,7 +1,15 @@
 import express from "express";
+import { PORT } from "./config/env.ts";
+import cookieParser from "cookie-parser";
+import cors from "cors";
 
 const app = express();
-const PORT = 5500;
+
+// Middlewares
+app.use(cookieParser());
+app.use(express.json());
+app.use(express.urlencoded({ extend: false }));
+app.use(cors());
 
 app.get("/", (req, res) => {
   res.status(200).json({

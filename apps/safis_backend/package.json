@@ -22,7 +22,6 @@
     "dotenv": "^16.0.3",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
-    "nodemailer": "^7.0.11",
-    "safis_backend": "file:"
+    "nodemailer": "^7.0.11"
   }
 }
