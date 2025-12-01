@@ -2,6 +2,7 @@ import express from "express";
 import { PORT } from "./config/env.ts";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import query from "./config/database.ts";
 
 const app = express();
 
@@ -19,4 +20,5 @@ app.get("/", (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`Listeaning on http://localhost:${PORT}`);
+  console.log(query);
 });
