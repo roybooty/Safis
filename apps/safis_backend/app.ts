@@ -3,6 +3,7 @@ import { PORT } from "./config/env.ts";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import authRouter from "./routes/auth.routes.ts";
+import eventRouter from "./routes/event.route.ts";
 
 const app = express();
 
@@ -10,10 +11,16 @@ const app = express();
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extend: false }));
-app.use(cors());
+app.use(cors({
+  origin: '*', // or your specific frontend URL like 'http://localhost:3000'
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 
 // Routes
 app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/event", eventRouter);
 
 app.get("/", (req, res) => {
   res.status(200).json({

@@ -8,7 +8,7 @@ import { JWT_SECRET } from "../config/env.ts";
 export const sign_up = async (req, res) => {
   try {
     const { email, password, name, role } = req.body;
-
+  
     const user: typeof users.$inferInsert = {
       name: name,
       email: email,
@@ -21,6 +21,8 @@ export const sign_up = async (req, res) => {
       .from(users)
       .where(eq(users.email, user.email))
       .limit(1);
+
+      console.log(userExist)
 
     if (userExist.length > 0) {
       const err = new Error();
