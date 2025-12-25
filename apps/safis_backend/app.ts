@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import authRouter from "./routes/auth.routes.ts";
 import eventRouter from "./routes/event.route.ts";
+import ticketRoter from "./routes/ticket.route.ts";
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use(cors({
 // Routes
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/event", eventRouter);
+app.use("/api/v1/ticket", ticketRoter);
 
 app.get("/", (req, res) => {
   res.status(200).json({
