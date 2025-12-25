@@ -1,0 +1,56 @@
+<form id="eventForm" style="display: flex; flex-direction: column; max-width: 400px; gap: 10px;">
+  <input type="text" name="name" placeholder="Event Name" required />
+  <input type="text" name="venu" placeholder="Venue" required />
+  <textarea name="description" placeholder="Description"></textarea>
+  <input type="text" name="categories" placeholder="Categories (e.g. tech, music)" />
+  <input type="date" name="date" required />
+  
+  <label>Event Image:</label>
+  <input type="file" id="imageInput" accept="image/*" required />
+
+  <button type="submit" style="background: #28a745; color: white; border: none; padding: 10px;">
+    Create Event
+  </button>
+</form>
+
+<script>
+  const TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjMGY0MDEzYi05M2YwLTQ1OTgtOTE4MS1mNWFiMGZmNjRmNTgiLCJpYXQiOjE3NjY2MjM5ODQsImV4cCI6MTc2NjcxMDM4NH0.ed-VJSYDq2haWPAiP3xqRc2kTJgxMWtTaqm-aGmK8aU";
+
+  document.getElementById('eventForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    // 1. Initialize FormData (handles file + text)
+    const formData = new FormData();
+    const formElements = e.target.elements;
+
+    // 2. Append text fields
+    formData.append('name', formElements.name.value);
+    formData.append('venu', formElements.venu.value);
+    formData.append('description', formElements.description.value);
+    formData.append('categories', formElements.categories.value);
+    formData.append('date', formElements.date.value);
+    
+    // 3. Append the file
+    const fileInput = document.getElementById('imageInput');
+    if (fileInput.files[0]) {
+      formData.append('image', fileInput.files[0]); // Becomes req.file on backend
+    }
+
+    try {
+      const response = await fetch('http://localhost:5500/api/v1/event', {
+        method: 'POST',
+        headers: {
+          // IMPORTANT: Do NOT set 'Content-Type' manually when using FormData
+          'Authorization': `Bearer ${TOKEN}`
+        },
+        body: formData
+      });
+
+      const result = await response.json();
+      console.log('Success:', result);
+      alert('Event created successfully!');
+    } catch (error) {
+      console.error('Submission failed:', error);
+    }
+  });
+</script>
