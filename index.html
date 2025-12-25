@@ -1,6 +1,11 @@
 <form id="eventForm" style="display: flex; flex-direction: column; max-width: 400px; gap: 10px;">
   <input type="text" name="name" placeholder="Event Name" required />
   <input type="text" name="venu" placeholder="Venue" required />
+  <input type="number" name="generalTicket" placeholder="Amount of genral Ticket" required />
+  <input type="number" name="vipTicket" placeholder="Amount of vip Ticket" required />
+  <input type="number" name="generalPrice" placeholder="price of genral Ticket" required />
+  <input type="number" name="vipPrice" placeholder="price of vip Ticket" required />
+
   <textarea name="description" placeholder="Description"></textarea>
   <input type="text" name="categories" placeholder="Categories (e.g. tech, music)" />
   <input type="date" name="date" required />
@@ -29,6 +34,10 @@
     formData.append('description', formElements.description.value);
     formData.append('categories', formElements.categories.value);
     formData.append('date', formElements.date.value);
+    formData.append('generalTicket', formElements.generalTicket.value);
+    formData.append('vipTicket', formElements.vipTicket.value);
+    formData.append('generalPrice', formElements.generalPrice.value);
+    formData.append('vipPrice', formElements.vipPrice.value);
     
     // 3. Append the file
     const fileInput = document.getElementById('imageInput');

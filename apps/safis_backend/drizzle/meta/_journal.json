@@ -8,6 +8,20 @@
       "when": 1766623866842,
       "tag": "0000_omniscient_boomerang",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1766681578859,
+      "tag": "0001_organic_morlun",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1766681811834,
+      "tag": "0002_quiet_iron_lad",
+      "breakpoints": true
     }
   ]
 }

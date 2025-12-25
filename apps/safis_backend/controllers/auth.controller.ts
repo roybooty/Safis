@@ -31,9 +31,9 @@ export const sign_up = async (req, res) => {
       throw err;
     }
 
-    const newUser = await query.insert(users).values(user);
+    const newUser = await query.insert(users).values(user).returning({ insertedId: users.id }); // Returns an array of objects;
     if (newUser) {
-      const token = await jwt.sign({ userId: newUser[0].id }, JWT_SECRET, {
+      const token = await jwt.sign({ userId: newUser[0].insertedId }, JWT_SECRET, {
         expiresIn: "1d",
       });
       res.status(200).json({

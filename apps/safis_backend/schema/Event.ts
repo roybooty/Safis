@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm";
-import { pgEnum, pgTable, text, uuid } from "drizzle-orm/pg-core";
+import { pgEnum, pgTable, text, uuid, integer } from "drizzle-orm/pg-core";
 import users from "./User.ts";
 import ticket from "./Ticket.ts";
 
@@ -29,6 +29,8 @@ const events = pgTable("events", {
   imageUrl: text("imageUrl").notNull(),
   organiserId: uuid("organiserId").notNull(),
   date: text("date").notNull(),
+  generalTicket: integer(),
+  vipTicket: integer()
 });
 
 export const eventRelations = relations(events, ({ one, many }) => ({

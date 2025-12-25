@@ -1,20 +1,18 @@
 import { relations } from "drizzle-orm";
 import { numeric, pgTable, text, uuid, boolean } from "drizzle-orm/pg-core";
 import events from "./Event.ts";
-import users from "./User.ts";
 
-const ticket = pgTable("ticket", {
+const tickets = pgTable("ticket", {
   id: uuid("id").defaultRandom().primaryKey().notNull(),
-  ticketCode: text("ticketCode").unique().notNull(),
-  ownerId: uuid("ownerId").notNull(),
+  ticketCode: text("ticketCode").unique(),
   price: numeric("price", { precision: 10, scale: 2 }).notNull(),
   eventId: uuid("eventId").notNull(),
   sold: boolean().notNull(),
+  type: text("type")
 });
 
-export const eventRelations = relations(ticket, ({ one }) => ({
-  event: one(events, { fields: [ticket.eventId], references: [events.id] }),
-  owner: one(users, { fields: [ticket.ownerId], references: [users.id] }),
+export const eventRelations = relations(tickets, ({ one }) => ({
+  event: one(events, { fields: [tickets.eventId], references: [events.id] }),
 }));
 
-export default ticket;
+export default tickets;
