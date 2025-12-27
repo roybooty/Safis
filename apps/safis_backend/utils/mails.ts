@@ -1,5 +1,5 @@
-import transpoter from "../config/nodemailer.js";
-import { GMAIL_GMAIL } from "../config/env.js";
+import transpoter from "../config/nodemailer.ts";
+import { GMAIL_GMAIL } from "../config/env.ts";
 
 const message = async (item, email, template, isReturning = false) => {
   let message = "";

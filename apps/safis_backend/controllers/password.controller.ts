@@ -1,6 +1,6 @@
-import { otp_message } from "../constants/index.js";
-import message from "../utils/mails.js";
-import client from "../config/redis.js";
+import { otp_message } from "../constants/index.ts";
+import message from "../utils/mails.ts";
+import client from "../config/redis.ts";
 import bcrypt from "bcrypt";
 import query from "../config/database.ts"
 import users from "../schema/User.ts";

@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer";
-import { GMAIL_GMAIL, GMAIL_PASS } from "./env.js";
+import { GMAIL_GMAIL, GMAIL_PASS } from "./env.ts";
 
 const transpoter = nodemailer.createTransport({
   host: "smtp.gmail.com",

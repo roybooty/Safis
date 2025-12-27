@@ -6,6 +6,7 @@ import authRouter from "./routes/auth.routes.ts";
 import eventRouter from "./routes/event.route.ts";
 import ticketRoter from "./routes/ticket.route.ts";
 import passRouter from "./routes/password.route.ts"
+import userProfile from "./routes/userProfile.route.ts";
 
 const app = express();
 
@@ -24,7 +25,8 @@ app.use(cors({
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/event", eventRouter);
 app.use("/api/v1/ticket", ticketRoter);
-app.use("/api/v1/password", passRouter)
+app.use("/api/v1/password", passRouter);
+app.use("/api/v1/user", userProfile);
 
 app.get("/", (req, res) => {
   res.status(200).json({

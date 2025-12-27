@@ -4,8 +4,8 @@ import users from "../schema/User.ts";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "../config/env.ts";
-import message from "../utils/mails.js";
-import { NewBoy, OldBoy, otp_message } from "../constants/index.js";
+import message from "../utils/mails.ts";
+import { NewBoy, OldBoy, otp_message } from "../constants/index.ts";
 
 export const sign_up = async (req, res) => {
   try {

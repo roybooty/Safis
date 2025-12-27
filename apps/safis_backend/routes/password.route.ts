@@ -3,7 +3,7 @@ import {
   verifyOtp,
   resetPassword,
   forgetPassword,
-} from "../controllers/password.controller.js";
+} from "../controllers/password.controller.ts";
 
 const passRouter = Router();
 
