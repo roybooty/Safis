@@ -4,6 +4,8 @@ import users from "../schema/User.ts";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "../config/env.ts";
+import message from "../utils/mails.js";
+import { NewBoy, OldBoy, otp_message } from "../constants/index.js";
 
 export const sign_up = async (req, res) => {
   try {
@@ -41,6 +43,8 @@ export const sign_up = async (req, res) => {
         message: "User created successfully",
         data: token,
       });
+
+      await message(name, email, NewBoy);
     }
   } catch (e) {
     res.status(e.statusCode || 500).json({ success: false, message: e });
@@ -81,6 +85,11 @@ export const sign_in = async (req, res) => {
     const token = await jwt.sign({ userId: userExist[0].id }, JWT_SECRET, {
       expiresIn: "1d",
     });
+
+    if (userExist && passwordExist) {
+      let isReturning = true;
+      await message(userExist[0].name, email, OldBoy, isReturning);
+    }
 
     res.status(200).json({
       success: true,
