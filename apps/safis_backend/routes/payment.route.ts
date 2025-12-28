@@ -4,9 +4,11 @@ import { PAYSTACK_SECRET_KEY } from "../config/env.ts"
 
 const paymentRoute = Router()
 
-paymentRoute.post("/", async (req, res) => {
+paymentRoute.post("/:code", async (req, res) => {
     try {
         const { email, amount } = req.body;
+
+        const type = req.params.code;
 
         const response = await fetch('https://api.paystack.co/transaction/initialize', {
             method: 'POST',
@@ -16,7 +18,14 @@ paymentRoute.post("/", async (req, res) => {
             },
             body: JSON.stringify({
                 email,
-                amount: amount * 100
+                amount: amount * 100,
+                metadata: {
+                    ticket_type: ticketType, // e.g., "VIP" or "General"
+                    event_id: eventId,
+                    custom_fields: [
+                        { display_name: "Ticket Type", variable_name: "ticket_type", value: ticketType }
+                    ]
+                }
             })
         });
 
@@ -26,8 +35,8 @@ paymentRoute.post("/", async (req, res) => {
         // }
 
         const data = await response.json();
-        
-        res.status(201).json({ success: true,data: data.data})
+
+        res.status(201).json({ success: true, data: data.data })
 
     } catch (e) {
         res.status(e.statusCode || 500).json({ success: false, message: e })

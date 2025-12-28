@@ -1,4 +1,4 @@
-import { otp_message } from "../constants/index.ts";
+import { otp_message, password_reset } from "../constants/index.ts";
 import message from "../utils/mails.ts";
 import client from "../config/redis.ts";
 import bcrypt from "bcrypt";
@@ -79,8 +79,11 @@ export const resetPassword = async (req, res) => {
       password: hashedPassword,
     }).where(eq(users.email, email))
 
+    const item = "";
+
     if (user) {
       res.status(201).json({ success: true, message: "password updated successfully"});
+      await message(item, email, password_reset);
     }
   } catch (e) {
     res
