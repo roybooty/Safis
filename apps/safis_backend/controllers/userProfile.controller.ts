@@ -3,6 +3,7 @@ import query from "../config/database.ts";
 import events from "../schema/Event.ts";
 import tickets from "../schema/Ticket.ts";
 import users from "../schema/User.ts";
+import { v2 as cloudinary} from 'cloudinary'
 
 export const getUser = async (req, res) => {
     try {
@@ -43,15 +44,22 @@ export const updateUser = async (req, res) => {
 };
 export const deleteUser = async (req, res) => {
     try {
-        const deletedUser = await query.delete(events).where(eq(users.id, req.user.id))
+        const allEvent = await query.select().from(events).where(eq(events.organiserId, req.user.id))
 
-        if(!deletedUser){
-            const err = new Error()
-            err.message = "Could not delete user"
-            throw err
+        const deleteTicket = await query.delete(tickets).where(eq(tickets.id, allEvent[0].id))
+
+        const result = await cloudinary.v2.uploader.destroy(allEvent[0].imageUrl);
+        const deletedEvent = await query.delete(events).where(eq(users.id, req.user.id))
+
+
+       const deletedUser = await query.delete(users).where(eq(users.id, req.user.id))
+
+        if(deletedUser && result && deletedEvent && deleteTicket){
+            res.status(201).json({success: true, message: "user deleted successfully"})
         }
 
-        res.status(201).json({success: true, message: "user deleted successfully"})
+        res.status(400).json({success: false, message: "could not delete user" })
+
     }catch(e){
         res.status(e.statusCode || 500).json({ success: false, message: e.message })
     }
@@ -140,16 +148,21 @@ export const deleteEvent = async (req, res) => {
     try{
         const id = req.params.id;
 
-        const searchEvent = await query.delete(events).where(eq(events.id, id))
+        const getEvent = await query.select().from(events).where(eq(events.id, id))
+        const result = await cloudinary.v2.uploader.destroy(getEvent[0].imageUrl);
+
+        const deleteEvent = await query.delete(events).where(eq(events.id, id))
+        await query.delete(tickets).where(eq(tickets.eventId, id))
         console.log(searchEvent)
-        if(searchEvent.length < 1){
+
+        if(getEvent.length < 0){
             const err = new Error();
             err.message = "Event does not exist",
             err.statusCode = 404;
             throw err;
         }
 
-        if(searchEvent){
+        if(deleteEvent && result){
             res.status(201).json({
                 success: true,
                 message: "Event deleted sccesfully",
