@@ -132,7 +132,7 @@ export const newEvent = async (req, res) => {
             })
         }
     }catch(e){
-        res.status(e.statusCode || 500 ).json({ message: e.message });
+        res.status(e.statusCode || 500 ).json({ message: e.message });4
         console.log(e)
     }
 }

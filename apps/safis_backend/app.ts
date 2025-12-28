@@ -7,6 +7,7 @@ import eventRouter from "./routes/event.route.ts";
 import ticketRoter from "./routes/ticket.route.ts";
 import passRouter from "./routes/password.route.ts"
 import userProfile from "./routes/userProfile.route.ts";
+import paymentRoute from "./routes/payment.route.ts";
 
 const app = express();
 
@@ -27,6 +28,7 @@ app.use("/api/v1/event", eventRouter);
 app.use("/api/v1/ticket", ticketRoter);
 app.use("/api/v1/password", passRouter);
 app.use("/api/v1/user", userProfile);
+app.use("/api/v1/payment", paymentRoute)
 
 app.get("/", (req, res) => {
   res.status(200).json({

@@ -19,7 +19,7 @@
 </form>
 
 <script>
-  const TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjMGY0MDEzYi05M2YwLTQ1OTgtOTE4MS1mNWFiMGZmNjRmNTgiLCJpYXQiOjE3NjY2MjM5ODQsImV4cCI6MTc2NjcxMDM4NH0.ed-VJSYDq2haWPAiP3xqRc2kTJgxMWtTaqm-aGmK8aU";
+  const TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIyOGE5MTVhNC1jZDc1LTRkMGItODgxNy1jYTk4YzExY2Y4MGQiLCJpYXQiOjE3NjY4NzMyNDEsImV4cCI6MTc2Njk1OTY0MX0.EU7BdwQU3_nzrPYQ1zgQm8A6xIBkv8DxyanPVGU1DF8";
 
   document.getElementById('eventForm').addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -46,7 +46,7 @@
     }
 
     try {
-      const response = await fetch('http://localhost:5500/api/v1/event', {
+      const response = await fetch('http://localhost:5500/api/v1/user', {
         method: 'POST',
         headers: {
           // IMPORTANT: Do NOT set 'Content-Type' manually when using FormData
