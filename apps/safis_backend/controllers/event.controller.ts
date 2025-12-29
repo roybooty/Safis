@@ -6,7 +6,7 @@ export const getEvent = async (req, res) => {
     try{
         const id = req.params.id;
 
-        const searchEvent = await query.select().from(events).where(eq(events.id, id));
+        const searchEvent = await query.select().from(events).where(eq(events.id, id) && eq(events.active, true));
         console.log(searchEvent)
         if(searchEvent.length < 1){
             const err = new Error();
@@ -27,7 +27,7 @@ export const getEvent = async (req, res) => {
 }
 export const getAllEvents = async (req, res) => {
      try{
-        const searchEvent = await query.select().from(events);
+        const searchEvent = await query.select().from(events).where(eq(events.active, true));
         console.log(searchEvent)
         if(searchEvent.length < 1){
             const err = new Error();

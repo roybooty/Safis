@@ -3,13 +3,12 @@ import query from "../config/database.ts";
 import events from "../schema/Event.ts";
 import tickets from "../schema/Ticket.ts";
 import users from "../schema/User.ts";
-import { v2 as cloudinary} from 'cloudinary'
 
 export const getUser = async (req, res) => {
     try {
         const user = await query.select().from(users).where(eq(users.id, req.user.id));
 
-        if(!user){
+        if(!user && user[0].active == false){
             const err = new Error()
             err.message = "user not found"
             err.statusCode = 404
@@ -44,17 +43,11 @@ export const updateUser = async (req, res) => {
 };
 export const deleteUser = async (req, res) => {
     try {
-        const allEvent = await query.select().from(events).where(eq(events.organiserId, req.user.id))
+        const deleteUser = await query.update(users).set({
+            active: false
+        }).where(eq(users.id, req.user.id))
 
-        const deleteTicket = await query.delete(tickets).where(eq(tickets.id, allEvent[0].id))
-
-        const result = await cloudinary.v2.uploader.destroy(allEvent[0].imageUrl);
-        const deletedEvent = await query.delete(events).where(eq(users.id, req.user.id))
-
-
-       const deletedUser = await query.delete(users).where(eq(users.id, req.user.id))
-
-        if(deletedUser && result && deletedEvent && deleteTicket){
+        if(deleteUser){
             res.status(201).json({success: true, message: "user deleted successfully"})
         }
 
@@ -66,7 +59,7 @@ export const deleteUser = async (req, res) => {
 };
 export const getUserEvents = async (req, res) => {
     try{
-        const allEvents = await query.select().from(events).where(eq(events.organiserId, req.user.id));
+        const allEvents = await query.select().from(events).where(eq(events.organiserId, req.user.id) && eq(events.active, true));
 
         if(allEvents.length <= 0){
             res.status(200).json({ success: true, message: "No events"})
@@ -80,7 +73,7 @@ export const getUserEvents = async (req, res) => {
 export const getSingleEvents = async (req, res) => {
     try {
         const id = req.params.id
-        const singleEvent = await query.select().from(events).where(eq(events.id, id) && eq(events.organiserId, req.user.id));
+        const singleEvent = await query.select().from(events).where(eq(events.id, id) && eq(events.organiserId, req.user.id) && eq(events.active, true));
 
         if(singleEvent.length <= 0){
             res.status(200).json({ success: true, message: "No events"})
@@ -105,7 +98,8 @@ export const newEvent = async (req, res) => {
             organiserId: req.user.id,
             date: date,
             generalTicket: generalTicket,
-            vipTicket: vipTicket
+            vipTicket: vipTicket,
+            active: true
         }
 
        
@@ -148,21 +142,11 @@ export const deleteEvent = async (req, res) => {
     try{
         const id = req.params.id;
 
-        const getEvent = await query.select().from(events).where(eq(events.id, id))
-        const result = await cloudinary.v2.uploader.destroy(getEvent[0].imageUrl);
+        const deleteEvent = await query.update(events).set({
+            active: false,
+        }).where(eq(events.id, id))
 
-        const deleteEvent = await query.delete(events).where(eq(events.id, id))
-        await query.delete(tickets).where(eq(tickets.eventId, id))
-        console.log(searchEvent)
-
-        if(getEvent.length < 0){
-            const err = new Error();
-            err.message = "Event does not exist",
-            err.statusCode = 404;
-            throw err;
-        }
-
-        if(deleteEvent && result){
+        if(deleteEvent){
             res.status(201).json({
                 success: true,
                 message: "Event deleted sccesfully",

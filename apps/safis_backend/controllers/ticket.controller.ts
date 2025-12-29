@@ -9,7 +9,7 @@ export const generateTicketGeneral = async (req, res) => {
     try {
         const id = req.params.id;
 
-        const isAvailable = await query.select().from(events).where(eq(events.id, id));
+        const isAvailable = await query.select().from(events).where(eq(events.id, id) && eq(events.active, true));
 
         if(isAvailable[0].generalTicket <= 0){
             const err = new Error()
@@ -47,7 +47,7 @@ export const generateTicketVip = async (req, res) => {
     try {
         const id = req.params.id;
 
-        const isAvailable = await query.select().from(events).where(eq(events.id, id));
+        const isAvailable = await query.select().from(events).where(eq(events.id, id) && eq(events.active, true));
 
         if(isAvailable[0].vipTicket <= 0){
             const err = new Error()

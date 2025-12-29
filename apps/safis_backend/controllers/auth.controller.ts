@@ -16,6 +16,7 @@ export const sign_up = async (req, res) => {
       email: email,
       role: role,
       password: await bcrypt.hash(password, 10),
+      active: true
     };
 
     const userExist = await query

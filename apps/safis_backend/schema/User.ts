@@ -1,4 +1,4 @@
-import { pgTable, text, uuid, pgEnum } from "drizzle-orm/pg-core";
+import { pgTable, text, uuid, pgEnum, boolean } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 import events from "./Event.ts";
 import ticket from "./Ticket.ts";
@@ -11,6 +11,7 @@ const users = pgTable("users", {
   email: text("email").unique().notNull(),
   role: actionRole("role").notNull(),
   password: text("password").notNull(),
+  active: boolean("active").default(false).notNull()
 });
 
 export const usersRelations = relations(users, ({ many }) => ({
