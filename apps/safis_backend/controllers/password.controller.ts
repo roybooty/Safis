@@ -4,7 +4,8 @@ import client from "../config/redis.ts";
 import bcrypt from "bcrypt";
 import query from "../config/database.ts"
 import users from "../schema/User.ts";
-import { eq } from "drizzle-orm";
+import { eq, and } from "drizzle-orm";
+
 
 export const verifyOtp = async (req, res) => {
   try {
@@ -34,7 +35,7 @@ export const forgetPassword = async (req, res) => {
   try {
     const { email } = req.body;
 
-    const existingEmail = await query.select().from(users).where(eq(users.email, email)).limit(1);
+    const existingEmail = await query.select().from(users).where(and(eq(users.email, email), eq(users.active, true))).limit(1);
 
     if (!existingEmail) {
       const err = new Error("email does not exist");
@@ -77,7 +78,7 @@ export const resetPassword = async (req, res) => {
 
     const user = await query.update(users).set({
       password: hashedPassword,
-    }).where(eq(users.email, email))
+    }).where(and(eq(users.active, true), eq(users.email, email)))
 
     const item = "";
 
