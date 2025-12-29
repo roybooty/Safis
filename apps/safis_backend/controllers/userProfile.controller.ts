@@ -3,18 +3,20 @@ import query from "../config/database.ts";
 import events from "../schema/Event.ts";
 import tickets from "../schema/Ticket.ts";
 import users from "../schema/User.ts";
+import { and } from "drizzle-orm";
 
 export const getUser = async (req, res) => {
     try {
         const user = await query.select().from(users).where(eq(users.id, req.user.id));
 
-        if(!user && user[0].active == false){
+        if(!user || user[0].active == false){
             const err = new Error()
             err.message = "user not found"
             err.statusCode = 404
+            throw err
         }
 
-        res.status(201).json({ success: true, data: user})
+        res.status(200).json({ success: true, data: user})
 
     }catch(e){
         res.status(e.statusCode || 500).json({ success: false, message: e.message })
@@ -33,6 +35,7 @@ export const updateUser = async (req, res) => {
             const err = new Error()
             err.message = "user not updated or not found"
             err.statusCode = 404
+            throw err
         }
 
         res.status(201).json({ success: true, message: "user updated successfully"})
@@ -48,7 +51,7 @@ export const deleteUser = async (req, res) => {
         }).where(eq(users.id, req.user.id))
 
         if(deleteUser){
-            res.status(201).json({success: true, message: "user deleted successfully"})
+            res.status(200).json({success: true, message: "user deleted successfully"})
         }
 
         res.status(400).json({success: false, message: "could not delete user" })
@@ -59,7 +62,7 @@ export const deleteUser = async (req, res) => {
 };
 export const getUserEvents = async (req, res) => {
     try{
-        const allEvents = await query.select().from(events).where(eq(events.organiserId, req.user.id) && eq(events.active, true));
+        const allEvents = await query.select().from(events).where(and(eq(events.organiserId, req.user.id), eq(events.active, true)));
 
         if(allEvents.length <= 0){
             res.status(200).json({ success: true, message: "No events"})
@@ -73,7 +76,7 @@ export const getUserEvents = async (req, res) => {
 export const getSingleEvents = async (req, res) => {
     try {
         const id = req.params.id
-        const singleEvent = await query.select().from(events).where(eq(events.id, id) && eq(events.organiserId, req.user.id) && eq(events.active, true));
+        const singleEvent = await query.select().from(events).where(and(eq(events.id, id), eq(events.organiserId, req.user.id), eq(events.active, true)));
 
         if(singleEvent.length <= 0){
             res.status(200).json({ success: true, message: "No events"})

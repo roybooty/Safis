@@ -11,7 +11,7 @@ const userProfile = Router()
 userProfile.post("/", authorize, upload.single("image"), newEvent);
 userProfile.get("/", authorize, getUser);
 userProfile.get("/getEvents", authorize ,getUserEvents);
-userProfile.get("/getSingleEvents/:id", authorize, getSingleEvents)
+userProfile.get("/getEvents/:id", authorize, getSingleEvents)
 userProfile.put("/", authorize, updateUser);
 userProfile.put("/:id", authorize,updateEvent);
 userProfile.delete("/", authorize, deleteUser);

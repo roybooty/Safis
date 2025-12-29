@@ -1,5 +1,5 @@
 {
-  "id": "d4b81d55-ec08-41a6-9f51-1c597d409ed5",
+  "id": "89e305a1-479a-4c41-b7f0-25411e8cfc46",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -57,6 +57,25 @@
           "type": "text",
           "primaryKey": false,
           "notNull": true
+        },
+        "generalTicket": {
+          "name": "generalTicket",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "vipTicket": {
+          "name": "vipTicket",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "active": {
+          "name": "active",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
         }
       },
       "indexes": {},
@@ -82,13 +101,7 @@
           "name": "ticketCode",
           "type": "text",
           "primaryKey": false,
-          "notNull": true
-        },
-        "ownerId": {
-          "name": "ownerId",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "price": {
           "name": "price",
@@ -107,6 +120,12 @@
           "type": "boolean",
           "primaryKey": false,
           "notNull": true
+        },
+        "type": {
+          "name": "type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
         }
       },
       "indexes": {},
@@ -160,6 +179,13 @@
           "type": "text",
           "primaryKey": false,
           "notNull": true
+        },
+        "active": {
+          "name": "active",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
         }
       },
       "indexes": {},

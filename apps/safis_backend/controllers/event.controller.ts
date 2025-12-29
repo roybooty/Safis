@@ -1,21 +1,22 @@
 import { eq } from "drizzle-orm";
 import query from "../config/database.ts";
 import events from "../schema/Event.ts";
+import { and } from "drizzle-orm";
 
 export const getEvent = async (req, res) => {
     try{
         const id = req.params.id;
 
-        const searchEvent = await query.select().from(events).where(eq(events.id, id) && eq(events.active, true));
+        const searchEvent = await query.select().from(events).where(and(eq(events.id, id), eq(events.active, true)));
         console.log(searchEvent)
-        if(searchEvent.length < 1){
+        if(searchEvent.length < 1 && !searchEvent){
             const err = new Error();
             err.message = "Event does not exist",
             err.statusCode = 404;
             throw err;
         }
 
-        res.status(201).json({
+        res.status(200).json({
             success: true,
             message: "Event fetched sccesfully",
             data: searchEvent
@@ -36,7 +37,7 @@ export const getAllEvents = async (req, res) => {
             throw err;
         }
 
-        res.status(201).json({
+        res.status(200).json({
             success: true,
             message: "Events fetched sccesfully",
             data: searchEvent
