@@ -1,135 +1,123 @@
-# Turborepo starter
+# 🎟️ Safis Event
 
-This Turborepo starter is maintained by the Turborepo core team.
+Safis Event is a high-performance, **TypeScript-based** event management and ticketing platform. It allows users to discover events and purchase tickets while providing organizers with the tools to host events and process payments securely.
 
-## Using this example
+---
 
-Run the following command:
+## 🚀 Tech Stack
 
-```sh
-npx create-turbo@latest
-```
+This project is built as a **monorepo** managed by **Turborepo** for optimized builds and type-safe development.
 
-## What's inside?
+* **Frontend:** [Next.js](https://nextjs.org/) (App Router) + TypeScript
+* **Backend:** [Express.js](https://expressjs.com/) + TypeScript
+* **Database:** [PostgreSQL](https://www.postgresql.org/) with [Drizzle ORM](https://orm.drizzle.team/)
+* **Caching:** [Redis](https://redis.io/)
+* **Payments:** [Paystack](https://paystack.com/)
+* **Media:** [Cloudinary](https://cloudinary.com/) (Image Storage)
+* **Auth:** [JSON Web Tokens (JWT)](https://jwt.io/)
+* **Communication:** [Nodemailer](https://nodemailer.com/) & [QR Code Generation](https://www.npmjs.com/package/qrcode)
 
-This Turborepo includes the following packages/apps:
+---
 
-### Apps and Packages
+## 📂 Project Structure
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
+```text
+.
+├── apps
+│   ├── safis_frontend   # Next.js web application (TS)
+│   └── safis_backend    # Express API (TS)
+├── packages             # Shared TypeScript configurations & ESLint
+├── turbo.json           # Turborepo configuration
+└── package.json         # Workspace root dependencies
 
 ```
-cd my-turborepo
 
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build
+---
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build
-yarn dlx turbo build
-pnpm exec turbo build
-```
+## 🛠️ Getting Started
 
-You can build a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
+### 1. Prerequisites
 
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build --filter=docs
+* **Node.js** (v18+)
+* **npm** (Recommended for Turborepo)
+* **PostgreSQL** & **Redis**
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build --filter=docs
-yarn exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
-```
+### 2. Installation
 
-### Develop
-
-To develop all apps and packages, run the following command:
+```bash
+git clone https://github.com/your-username/Safis.git
+cd Safis
+npm install
 
 ```
-cd my-turborepo
 
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev
+### 3. Environment Setup
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev
-yarn exec turbo dev
-pnpm exec turbo dev
-```
+Create `.env` files in the respective app directories.
 
-You can develop a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
+**Backend (`apps/safis_backend/.env`):**
 
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev --filter=web
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev --filter=web
-yarn exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
-```
-
-### Remote Caching
-
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
+```env
+PORT=5000
+DATABASE_URL=postgresql://user:password@localhost:5432/safis_db
+REDIS_URL=redis://localhost:6379
+JWT_SECRET=your_super_secret_key
+CLOUDINARY_CLOUD_NAME=your_name
+CLOUDINARY_API_KEY=your_key
+CLOUDINARY_API_SECRET=your_secret
+PAYSTACK_SECRET_KEY=sk_test_...
+SMTP_USER=your_email@gmail.com
+SMTP_PASS=your_app_password
 
 ```
-cd my-turborepo
 
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo login
+**Frontend (`apps/safis_frontend/.env.local`):**
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo login
-yarn exec turbo login
-pnpm exec turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+```env
+NEXT_PUBLIC_API_URL=http://localhost:5000
+NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY=pk_test_...
 
 ```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo link
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo link
-yarn exec turbo link
-pnpm exec turbo link
+### 4. Database Setup (Drizzle)
+
+Run the following inside the `safis_backend` directory to sync your schema with PostgreSQL:
+
+```bash
+npm drizzle-kit generate
+
 ```
 
-## Useful Links
+### 5. Running the Application
 
-Learn more about the power of Turborepo:
+From the root directory, start both the frontend and backend simultaneously:
 
-- [Tasks](https://turborepo.com/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.com/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.com/docs/reference/configuration)
-- [CLI Usage](https://turborepo.com/docs/reference/command-line-reference)
+```bash
+npm dev
+
+```
+
+* **Web App:** `http://localhost:3000`
+* **API:** `http://localhost:5500`
+
+---
+
+## ✨ Key Features
+
+* **Type Safety:** End-to-end TypeScript implementation for reliable data flow.
+* **Event Hosting:** Create and manage event details with Cloudinary image hosting.
+* **Paystack Integration:** Seamless payment processing for ticket sales.
+* **Digital Tickets:** Automatic **QR Code** generation for easy check-ins.
+* **Email Confirmations:** Tickets delivered via Nodemailer upon successful payment.
+* **Caching:** Optimized response times using Redis.
+
+---
+
+## 📜 Available Scripts
+
+* `npm dev` – Runs both apps in development mode with hot-reloading.
+* `npm build` – Compiles TypeScript and builds apps for production.
+* `npm lint` – Checks for linting errors across the entire workspace.
+
+---
+
