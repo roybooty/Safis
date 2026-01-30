@@ -30,7 +30,7 @@ export const getAllEvents = async (req, res) => {
      try{
         const searchEvent = await query.select().from(events).where(eq(events.active, true));
         console.log(searchEvent)
-        if(searchEvent.length < 1){
+        if(searchEvent.length <= 1){
             const err = new Error();
             err.message = "there is no events",
             err.statusCode = 201;
