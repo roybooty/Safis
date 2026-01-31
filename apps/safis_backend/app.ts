@@ -8,7 +8,6 @@ import ticketRoter from "./routes/ticket.route.ts";
 import passRouter from "./routes/password.route.ts"
 import userProfile from "./routes/userProfile.route.ts";
 import paymentRoute from "./routes/payment.route.ts";
-import runMigrations from "./config/migrate.ts";
 
 const app = express();
 
@@ -39,9 +38,4 @@ app.get("/", (req, res) => {
 
 app.listen(PORT, async () => {
   console.log(`Listeaning on http://localhost:${PORT}`);
-  try{
-    await runMigrations()
-  }catch(e){
-    console.log(e);
-  }
 });

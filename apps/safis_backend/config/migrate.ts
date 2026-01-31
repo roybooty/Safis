@@ -1,5 +1,5 @@
 import { migrate } from "drizzle-orm/node-postgres/migrator"; // or your specific driver
-import query from "./database";
+import query from "./database.ts";
 
 async function runMigrations() {
   console.log("⏳ Running migrations...");
